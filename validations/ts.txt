@@ -1,0 +1,167 @@
+export type ValueTypes =
+  | "string"
+  | "number"
+  | "boolean"
+  | "name"
+  | "email"
+  | "phone"
+  | "firstName"
+  | "lastName"
+  | "address"
+  | "id"
+  | "username"
+  | "avatar"
+  | "password"
+  | "birthdate"
+  | "pastDate"
+  | "futureDate"
+  | "city"
+  | "state"
+  | "street"
+  | "country"
+  | "countryCode"
+  | "float"
+  | "zipCode";
+
+type GenerationStrategyType = "never" | "once" | "always";
+type TypeOfData = "string" | "number" | "boolean" | "object" | "array";
+export type GenerateDataItemType = {
+  validations: any;
+  valueType: ValueTypes;
+  defaultValue: TypeOfData;
+  type: TypeOfData;
+  generationStrategy: GenerationStrategyType;
+  enums?: Array<TypeOfData>;
+  properties?: GenerateDataType;
+  min?: number;
+  max?: number;
+  items?: any;
+};
+
+// type StringType = {
+//   type: "string";
+//   defaultValue?: string;
+//   enums?: Array<string>;
+// };
+// type NumberType = {
+//   type: "number";
+//   defaultValue?: number;
+//   enums?: Array<number>;
+// };
+// type BooleanType = {
+//   type: "boolean";
+//   defaultValue?: boolean;
+//   enums?: Array<boolean>;
+// };
+export type PropertiesType = {
+  [key: string]: ValueTypes | PropertiesType;
+};
+export type ObjectType = {
+  type: "object";
+  defaultValue?: any;
+  enums?: any;
+  properties: GenerateDataType;
+};
+export type ArrayType = {
+  type: "array";
+  defaultValue?: any;
+  enums?: any;
+};
+export type GenerateDataType = {
+  [key: string]: GenerateDataItemType;
+};
+
+export type GenerateTypeDataType = {
+  valueType: ValueTypes;
+  type: string;
+  count: number;
+};
+
+export type CheckValidationType = {
+  type: "string" | "number" | "boolean" | "object" | "array";
+  validations: any;
+  defaultValue: any;
+  valueType: ValueTypes;
+  enums?: any;
+  generationStrategy?: GenerationStrategyType;
+  properties?: GenerateDataType;
+  parentKey?: string;
+  items?: any;
+  min?: number;
+  max?: number;
+};
+
+type ReturnDataItemType = string | boolean | number;
+export type ReturnDataType = {
+  [key: string]:
+    | ReturnDataItemType
+    | Array<ReturnDataItemType>
+    | ReturnDataType
+    | undefined;
+};
+
+export type SchemaItem = {
+  type:
+    | "type"
+    | "nonempty"
+    | "min"
+    | "max"
+    | "nonempty"
+    | "dependant"
+    | "regx"
+    | "function";
+  value: string | number | boolean;
+  message: string;
+  dependantType: "equal" | "ls" | "gt";
+};
+type ValidationSchemeType = {
+  [key: string]: SchemaItem;
+};
+
+export type FakeDataGeneratorType = {
+  obj: GenerateDataType;
+  populatedData: Array<ValidationSchemeType>;
+  populatedKey: Array<string>;
+  count: number;
+  dbKey: string;
+};
+
+export type SingleRecordGeneratorType = {
+  obj: GenerateDataType;
+  repeat: boolean;
+  currentData?: any;
+};
+
+export type CreateCurrentSchemaType = {
+  valueType: ValueTypes;
+  validations: Array<ValidationSchemeType>;
+  generationStrategy: GenerationStrategyType;
+  defaultValue?: TypeOfData;
+  type: TypeOfData;
+  enums?: Array<TypeOfData>;
+  properties?: GenerateDataType;
+  min?: number;
+  max?: number;
+};
+
+type CustomLogicType = {
+  customLogic: (prop: any) => any;
+};
+type EnableApiType = {
+  options: CustomLogicType;
+  get: CustomLogicType;
+  post: CustomLogicType;
+  patch: CustomLogicType;
+  delete: CustomLogicType;
+};
+export type ConfigItemType = {
+  endPoint: string;
+  count: number;
+  enableApi: EnableApiType;
+  dataGenerator: Record<string, CreateCurrentSchemaType>;
+};
+
+export type ApiType = Record<string, ConfigItemType>;
+export type ConfigType = {
+  api: ApiType;
+};
